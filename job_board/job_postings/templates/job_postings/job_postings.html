@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Postings</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .button {
+            position: fixed;
+            right: 10%;
+            top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: black;
+            background-color: rgba(128, 128, 128, 0.7);
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .button:hover {
+            background-color: rgba(128, 128, 128);
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        .table-container {
+            width: 400px;
+            max-width: 400px;
+
+            margin: 20px;
+            padding: 20px;
+        }
+
+        .table-container ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .table-container div {
+            margin-bottom: 20px;
+        }
+
+        .table-container hr {
+            width: 90%;
+            margin-left: auto;
+            margin-right: 30px;
+        }
+    </style>
+</head>
+<body>
+
+
+    <a href="{% url 'job_postings:create_posting' %}" class="button">Create Job Posting</a>
+    <div class="container">
+    <form method="get">
+        <select name="categoryy">
+            <option value="">All Categories</option>
+            {% for category in unique_categories %}
+                <option value= "{{ category }}" {% if category == request.GET.category %}selected{% endif %}>{{ category }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+
+    <div class="table-container">
+        {% if job_postings_list %}
+            <ul>
+            {% for posting in job_postings_list %}
+                <div style="background-color: rgba(128, 128, 128, 0.45); padding: 20px; border-radius: 10px">
+                    <pre>Posted: {{ posting.pub_date }}</pre>
+                    <pre>By: {{ posting.user }}</pre>
+                    <h3 style="word-wrap: break-word;">{{ posting.title }}</h3>
+                    <pre style="white-space: pre-wrap; word-wrap: break-word;">{{ posting.content }}</pre>
+                </div>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No job postings are available.</p>
+        {% endif %}
+    </div>
+</div>
+</body>
+</html>

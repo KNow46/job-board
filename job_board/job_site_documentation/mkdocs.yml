@@ -1,0 +1,6 @@
+site_name: Job Boarw
+nav:
+  - Overview: overview.md
+  - Home Page: home_page.md
+  - Creating Post: creating_post.md
+theme: readthedocs
